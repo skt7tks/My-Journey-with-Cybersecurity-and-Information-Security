@@ -271,13 +271,44 @@
 				},
 				{
 					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46c7cbaa-9794-4644-a779-7cd0b06dee12",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body contains correct fields\", ()=>{\r",
+									"    pm.expect(response).to.have.property('extraField');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"id": "3974ec56-c948-4b20-8b2c-f22eea665b36",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Extra field test\",\r\n  \"body\": \"Body\",\r\n  \"userId\": 1,\r\n  \"extraField\": \"This should be ignored\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://jsonplaceholder.typicode.com/posts"
 					},
 					"response": []
 				}
